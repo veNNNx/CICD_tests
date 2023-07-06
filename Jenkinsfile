@@ -23,27 +23,27 @@ pipeline {
 
             }
         }
-        stage('Create RPM') {
-            steps {
+        // stage('Create RPM') {
+        //     steps {
 
-            }
-        }
+        //     }
+        // }
         
-        stage('Deploy RPM') {
-            steps {
-                // przesłanie paczki na vmkę
-                // uruchomienie flaskowej apki
-                // Wdrożenie aplikacji
-                // Dodaj odpowiednie polecenia lub skrypty do wdrożenia aplikacji
-            }
-        }
-        stage('Test finall VM') {
-            steps {
-                // przesłanie paczki na vmkę
-                // uruchomienie flaskowej apki
-                // Wdrożenie aplikacji
-                // Dodaj odpowiednie polecenia lub skrypty do wdrożenia aplikacji
-            }
-        }
+        // stage('Deploy RPM') {
+        //     steps {
+        //         // przesłanie paczki na vmkę
+        //         // uruchomienie flaskowej apki
+        //         // Wdrożenie aplikacji
+        //         // Dodaj odpowiednie polecenia lub skrypty do wdrożenia aplikacji
+        //     }
+        // }
+        // stage('Test finall VM') {
+        //     steps {
+        //         // przesłanie paczki na vmkę
+        //         // uruchomienie flaskowej apki
+        //         // Wdrożenie aplikacji
+        //         // Dodaj odpowiednie polecenia lub skrypty do wdrożenia aplikacji
+        //     }
+        // }
     }
 }
