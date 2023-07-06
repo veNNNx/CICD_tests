@@ -14,20 +14,18 @@ pipeline {
             
             }
         }
-        stage('Test') {
+        stage('Create venv') {
             steps {
                 // Setup venv
                 sh 'python3.11 -m venv venv'
                 sh '. venv/bin/activate'
-                
                 // Install req
                 sh 'pip install -r requirements.txt'
-                // Aktywacja środowiska wirtualnego
-                sh 'source venv/bin/activate'
-                
-                // Uruchamianie testów jednostkowych
+            }
+        }
+        stage('Test Flask') {
+            steps {
                 sh 'python3.11 -m pytest -v'
-
             }
         }
         // stage('Create RPM') {
