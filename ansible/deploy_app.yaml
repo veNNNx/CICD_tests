@@ -8,9 +8,15 @@
         path: /Jenkins_build
         state: directory
         mode: '0755'
-        
+
+    - name: Find out playbook's path
+      shell: pwd
+      register: playbook_path_output
+
+    - debug: var=playbook_path_output.stdout
+    
     - name: Copy file to remote machine
       ansible.builtin.copy:
-        src: ../backend.tar
+        src: backend.tar
         dest: /Jenkins_build/
         remote_src: yes
