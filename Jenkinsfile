@@ -18,7 +18,7 @@ pipeline {
             steps {
                 // Setup venv
                 sh 'python3.11 -m venv venv'
-                sh 'source venv/bin/activate'
+                sh '. venv/bin/activate'
                 
                 // Install req
                 sh 'pip install -r requirements.txt'
