@@ -36,7 +36,7 @@ pipeline {
         
         stage('Deploy tar') {
             steps {
-                sh 'ansible-playbook ansible/deploy_app.yaml -i ansible/inventory -v'
+                sh 'ansible-playbook ansible/deploy_app.yaml -i ansible/inventory.ini -v'
                 // przesłanie paczki na vmkę
                 // uruchomienie flaskowej apki
                 // Wdrożenie aplikacji
