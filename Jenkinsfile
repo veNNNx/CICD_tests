@@ -2,16 +2,16 @@ pipeline {
     agent any
     
     stages {
-        stage('Clone repository') {
-            steps {
-                checkout([$class: 'GitSCM',
-                          branches: [[name: '*/main']],
-                          userRemoteConfigs: [[url: 'git@github.com:veNNNx/CICD_tests.git']]])
-            }
-        }
         stage('Download repo'){
             steps {
-                git 'git@github.com:veNNNx/CICD_tests.git'
+                git(
+                    url: "git@github.com:veNNNx/CICD_tests.git",
+                    branch: "main",
+                    credentialsId: "1",
+                    changelog: true,
+                    poll: true
+                    )
+            
             }
         }
         stage('Test') {
