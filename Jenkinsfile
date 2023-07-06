@@ -28,20 +28,21 @@ pipeline {
                 sh 'python3.11 -m pytest -v'
             }
         }
-        // stage('Create RPM') {
-        //     steps {
-
-        //     }
-        // }
+        stage('Create tar') {
+            steps {
+                sh 'tar -cvf backend.tar backend'
+            }
+        }
         
-        // stage('Deploy RPM') {
-        //     steps {
-        //         // przesłanie paczki na vmkę
-        //         // uruchomienie flaskowej apki
-        //         // Wdrożenie aplikacji
-        //         // Dodaj odpowiednie polecenia lub skrypty do wdrożenia aplikacji
-        //     }
-        // }
+        stage('Deploy tar') {
+            steps {
+                sh 'ansible-playbook ansible/deploy_app.yaml'
+                // przesłanie paczki na vmkę
+                // uruchomienie flaskowej apki
+                // Wdrożenie aplikacji
+                // Dodaj odpowiednie polecenia lub skrypty do wdrożenia aplikacji
+            }
+        }
         // stage('Test finall VM') {
         //     steps {
         //         // przesłanie paczki na vmkę

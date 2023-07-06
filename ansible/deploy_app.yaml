@@ -1,0 +1,16 @@
+- name: Transfer file to remote machine
+  hosts: myVM
+  gather_facts: false
+  
+  tasks:
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /Jenkins_build
+        state: directory
+        mode: '0755'
+        
+    - name: Copy file to remote machine
+      ansible.builtin.copy:
+        src: ../backend.tar
+        dest: /Jenkins_build/
+        remote_src: yes
