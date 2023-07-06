@@ -11,9 +11,9 @@ pipeline {
                     changelog: true,
                     poll: true
                     )
-            
             }
         }
+
         stage('Create venv') {
             steps {
                 // Setup venv
@@ -43,13 +43,11 @@ pipeline {
                 // Dodaj odpowiednie polecenia lub skrypty do wdrożenia aplikacji
             }
         }
-        // stage('Test finall VM') {
-        //     steps {
-        //         // przesłanie paczki na vmkę
-        //         // uruchomienie flaskowej apki
-        //         // Wdrożenie aplikacji
-        //         // Dodaj odpowiednie polecenia lub skrypty do wdrożenia aplikacji
-        //     }
-        // }
+    }
+    post {
+        always {
+            deleteDir()
+            cleanWS()
+        }
     }
 }
