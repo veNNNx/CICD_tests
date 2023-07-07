@@ -32,13 +32,7 @@ pipeline {
             // Locall creating tar
             steps { 
                 sh 'ansible-playbook ansible/create_tar.yaml'
-            }
-            // Copy tar and unarchive on remote
-            steps { 
                 sh 'ansible-playbook ansible/deploy_remote.yaml -i ansible/inventory.ini -v'
-            }
-            // Create api-flask.service and start it
-            steps { 
                 sh 'ansible-playbook ansible/deploy_api_flask.yaml -i ansible/inventory.ini -v'
             }
         }
