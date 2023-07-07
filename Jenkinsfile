@@ -2,17 +2,17 @@ pipeline {
     agent any
     
     stages {
-        stage('Download repo'){
-            steps {
-                git(
-                    url: "git@github.com:veNNNx/CICD_tests.git",
-                    branch: "main",
-                    credentialsId: "1",
-                    changelog: true,
-                    poll: true
-                    )
-            }
-        }
+        // stage('Download repo'){
+        //     steps {
+        //         git(
+        //             url: "git@github.com:veNNNx/CICD_tests.git",
+        //             branch: "main",
+        //             credentialsId: "1",
+        //             changelog: true,
+        //             poll: true
+        //             )
+        //     }
+        // }
 
         stage('Create venv') {
             steps {
@@ -20,27 +20,24 @@ pipeline {
                 sh 'python3.11 -m venv venv'
                 sh '. venv/bin/activate'
                 // Install req
-                sh 'pip install -r requirements.txt'
+                sh 'pip install -r backend/requirements.txt'
             }
         }
         stage('Test Flask') {
             steps {
+                sh '. backend/venv/bin/activate'
                 sh 'python3.11 -m pytest -v'
             }
         }
-        stage('Create tar') {
-            steps {
-                sh 'tar -cvf backend.tar backend'
+        stage('Ansible playbooks') {
+            steps { // Locall creating tar
+                sh 'ansible-playbook ansible/create_tar.yaml'
             }
-        }
-        
-        stage('Deploy tar') {
-            steps {
-                sh 'ansible-playbook ansible/deploy_app.yaml -i ansible/inventory.ini -v'
-                // przesłanie paczki na vmkę
-                // uruchomienie flaskowej apki
-                // Wdrożenie aplikacji
-                // Dodaj odpowiednie polecenia lub skrypty do wdrożenia aplikacji
+            steps { // Copy tar and unarchive on remote
+                sh 'ansible-playbook ansible/deploy_remote.yaml -i ansible/inventory.ini -v'
+            }
+            steps { // Create api-flask.service and start it
+                sh 'ansible-playbook ansible/deploy_api_flask.yaml -i ansible/inventory.ini -v'
             }
         }
     }

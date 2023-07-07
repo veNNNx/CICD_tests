@@ -1,0 +1,11 @@
+[Unit]
+Description=Flask API service
+[Install]
+WantedBy=multi-user.target
+[Service]
+User=test
+Type=simple
+WorkingDirectory=/home/test/ven-project/backend
+ExecStart=/home/test/ven-project/venv/bin/python3 -m flask --app /home/test/ven-project/backend/api/app.py run --host=192.168.0.118
+Restart=on-failure
+TimeoutSec=600

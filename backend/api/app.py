@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def home():
     return "Hello, World!"
@@ -9,8 +10,9 @@ def home():
 
 @app.route("/data")
 def get_some_data():
-    """ function to get all books """
+    """function to get all books"""
     return jsonify({"Data": data})
+
 
 data = [
     {
@@ -20,5 +22,5 @@ data = [
     {
         "id": 2,
         "dummy_value_1": "Definitely not a test",
-    }
+    },
 ]

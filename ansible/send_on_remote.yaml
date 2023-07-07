@@ -1,0 +1,40 @@
+- name: Transfer file to remote machine
+  hosts: myVM
+  gather_facts: false
+  
+  tasks:
+    - name: Delete Jenkins_build directory
+      ansible.builtin.file:
+        state: absent
+        path: /home/test/Jenkins_build
+
+    - name: Create a empty directory Jenkins_build
+      ansible.builtin.file:
+        path: /home/test/Jenkins_build
+        state: directory
+        mode: '0755'
+
+    # Copy backend code on remote VM
+    - name: Copy backend.tgz to remote VM
+      become: true
+      ansible.builtin.copy:
+        src: ../backend.tgz
+        dest: /home/test/Jenkins_build/backend.tgz
+
+    # Clear ven-project directory
+    - name: Delete ven-project directory
+      ansible.builtin.file:
+        state: absent
+        path: /home/test/ven-project
+
+    - name: Create a empty directory ven-project
+      ansible.builtin.file:
+        path: /home/test/ven-project
+        state: directory
+        mode: '0755'
+
+    - name: Extract backend.tgz
+      ansible.builtin.unarchive:
+        src: /home/test/Jenkins_build/backend.tgz
+        dest: /home/test/ven-project/
+        remote_src: yes

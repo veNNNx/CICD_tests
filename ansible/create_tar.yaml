@@ -1,0 +1,9 @@
+- name: Localhost scripts
+  hosts: localhost
+  gather_facts: false
+  
+  tasks:
+    - name: Compress backend directory
+      community.general.archive:
+        path: ../backend
+        dest: ../backend.tgz

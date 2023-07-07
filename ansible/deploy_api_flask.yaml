@@ -1,0 +1,45 @@
+- name: Run app
+  hosts: myVM
+  gather_facts: false
+  
+  tasks:
+    - name: Create venv
+      command:
+        cmd: python3 -m venv /home/test/ven-project/venv
+
+    - name: Install requirements
+      pip: 
+        requirements=/home/test/ven-project/backend/requirements.txt 
+        virtualenv=/home/test/ven-project/venv
+
+    - name: Clear api-flask.service
+      shell: |
+        systemctl stop api-flask.service
+        systemctl disable api-flask.service
+        rm /etc/systemd/system/api-flask.service
+        rm /usr/lib/systemd/system/api-flask.service
+        systemctl daemon-reload
+        systemctl reset-failed
+    
+    - name: Copy api-flask.service on remote
+      become: true
+      ansible.builtin.copy:
+        src: ../backend_init_config/api-flask.service
+        dest: /lib/systemd/system/api-flask.service
+
+    - name: Copy api-flask.config on remote
+      become: true
+      ansible.builtin.copy:
+        src: ../backend_init_config/api-flask.config
+        dest: /etc/init/api-flask.config
+
+    - name: systemctl daemon-reload
+      shell: systemctl daemon-reload
+    
+    - name: Enable Flask api
+      shell: sudo systemctl enable api-flask.service
+
+    - name: Start Flask api
+      shell: sudo systemctl start api-flask.service
+
+
