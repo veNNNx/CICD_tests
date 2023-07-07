@@ -2,6 +2,8 @@ pipeline {
     agent any
     
     stages {
+
+
         stage('Create venv') {
             steps {
                 // Setup venv
@@ -18,13 +20,16 @@ pipeline {
             }
         }
         stage('Ansible playbooks') {
-            steps { // Locall creating tar
+            // Locall creating tar
+            steps { 
                 sh 'ansible-playbook ansible/create_tar.yaml'
             }
-            steps { // Copy tar and unarchive on remote
+            // Copy tar and unarchive on remote
+            steps { 
                 sh 'ansible-playbook ansible/deploy_remote.yaml -i ansible/inventory.ini -v'
             }
-            steps { // Create api-flask.service and start it
+            // Create api-flask.service and start it
+            steps { 
                 sh 'ansible-playbook ansible/deploy_api_flask.yaml -i ansible/inventory.ini -v'
             }
         }
