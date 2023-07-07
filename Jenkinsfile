@@ -2,8 +2,17 @@ pipeline {
     agent any
     
     stages {
-
-
+        stage('Download repo'){
+            steps {
+                git(
+                    url: "git@github.com:veNNNx/CICD_tests.git",
+                    branch: "main",
+                    credentialsId: "1",
+                    changelog: true,
+                    poll: true
+                    )
+            }
+        }
         stage('Create venv') {
             steps {
                 // Setup venv
