@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Test Flask') {
             steps {
-                sh '. backend/venv/bin/activate'
+                sh '. venv/bin/activate'
                 sh 'python3.11 -m pytest -v'
             }
         }
@@ -32,15 +32,15 @@ pipeline {
             // Locall creating tar
             steps { 
                 sh 'ansible-playbook ansible/create_tar.yaml'
-                sh 'ansible-playbook ansible/deploy_remote.yaml -i ansible/inventory.ini -v'
+                sh 'ansible-playbook ansible/send_on_remote.yaml -i ansible/inventory.ini -v'
                 sh 'ansible-playbook ansible/deploy_api_flask.yaml -i ansible/inventory.ini -v'
             }
         }
     }
-    // post {
-    //     always {
-    //         deleteDir()
-    //         cleanWS()
-    //     }
-    // }
+    post {
+        always {
+            deleteDir()
+            cleanWS()
+        }
+    }
 }
